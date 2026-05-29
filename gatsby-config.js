@@ -15,6 +15,21 @@ module.exports = {
     siteUrl: `https://gatsbystarterdefaultsource.gatsbyjs.io/`,
   },
   plugins: [
+    {
+      resolve: `gatsby-source-wordpress`,
+      options: {
+        url: process.env.WPGRAPHQL_URL || `http://localhost/graphql`,
+        verbose: true,
+        develop: {
+          hardCacheMediaFiles: true,
+        },
+        type: {
+          Post: {
+            limit: process.env.NODE_ENV === `development` ? 50 : null,
+          },
+        },
+      },
+    },
     `gatsby-plugin-image`,
     {
       resolve: `gatsby-source-filesystem`,
