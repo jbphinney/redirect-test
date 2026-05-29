@@ -53,6 +53,5 @@ exports.createPages = async ({ graphql, actions }) => {
     fromPath: '/redirect-test-one/',
     toPath: '/redirect-test-two/',
     isPermanent: true,
-    statusCode: 301,
   })
 }
