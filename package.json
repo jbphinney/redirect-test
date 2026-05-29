@@ -27,7 +27,7 @@
     "node": "20.x"
   },
   "scripts": {
-    "build": "GATSBY_CPU_COUNT=1 gatsby build",
+    "build": "NODE_OPTIONS='--max-old-space-size=8192' gatsby build",
     "develop": "gatsby develop",
     "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,md,css}\"",
     "start": "gatsby serve --port 3000",
