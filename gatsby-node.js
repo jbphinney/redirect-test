@@ -3,3 +3,15 @@
  *
  * See: https://www.gatsbyjs.com/docs/reference/config-files/gatsby-node/
  */
+
+exports.createPages = async ({ actions }) => {
+  const { createRedirect } = actions
+
+  createRedirect({
+    fromPath: '/redirect-test-one/',
+    toPath: '/redirect-test-two/',
+    isPermanent: true,
+    redirectInBrowser: true,
+    statusCode: 301,
+  })
+}
