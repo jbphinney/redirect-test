@@ -24,7 +24,7 @@
   ],
   "license": "0BSD",
   "engines": {
-    "node": "20.x"
+    "node": "22.x"
   },
   "scripts": {
     "build": "NODE_OPTIONS='--max-old-space-size=8192' gatsby build",
