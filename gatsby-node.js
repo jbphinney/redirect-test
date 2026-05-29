@@ -34,6 +34,11 @@ exports.createPages = async ({ graphql, actions }) => {
   const pageTemplate = path.resolve('./src/templates/page.js')
 
   result.data.allWpPage.edges.forEach(({ node }) => {
+    // Skip creating a page for redirect-test-one since we're redirecting it
+    if (node.uri === '/redirect-test-one/') {
+      return
+    }
+
     createPage({
       path: node.uri,
       component: pageTemplate,
