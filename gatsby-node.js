@@ -48,12 +48,11 @@ exports.createPages = async ({ graphql, actions }) => {
     })
   })
 
-  // Create redirect
+  // Create server-side redirect
   createRedirect({
     fromPath: '/redirect-test-one/',
     toPath: '/redirect-test-two/',
     isPermanent: true,
-    redirectInBrowser: true,
     statusCode: 301,
   })
 }
