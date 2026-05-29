@@ -34,11 +34,6 @@ exports.createPages = async ({ graphql, actions }) => {
   const pageTemplate = path.resolve('./src/templates/page.js')
 
   result.data.allWpPage.edges.forEach(({ node }) => {
-    // Skip creating a page for redirect-test-one since we're redirecting it
-    if (node.uri === '/redirect-test-one/') {
-      return
-    }
-
     createPage({
       path: node.uri,
       component: pageTemplate,
@@ -48,10 +43,11 @@ exports.createPages = async ({ graphql, actions }) => {
     })
   })
 
-  // Create server-side redirect
+  // Create server-side redirect with force
   createRedirect({
     fromPath: '/redirect-test-one/',
     toPath: '/redirect-test-two/',
     isPermanent: true,
+    force: true,
   })
 }
