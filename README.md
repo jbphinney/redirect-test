@@ -47,5 +47,5 @@ A Gatsby site configured for headless WordPress deployment on WP Engine.
 - `npm run clean` - Clean Gatsby cache
 
 ## Configuration
-Just some test text
+Just some test text 1
 The site is configured to use `gatsby-source-wordpress` to pull content from WordPress via GraphQL. The WordPress endpoint is configured via the `WPGRAPHQL_URL` environment variable in `gatsby-config.js`.
