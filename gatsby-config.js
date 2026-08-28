@@ -16,16 +16,36 @@ require(`dotenv`).config({
 // standard `Authorization: Basic <base64>` header, which is what WP Engine's
 // nginx-based password protection expects.
 //
-// Only set when a password is actually configured, otherwise the plugin would
-// send a literal "undefined:undefined".
-const wpBasicAuth = process.env.WP_BASIC_AUTH_PASSWORD
-  ? {
-      htaccess: {
-        username: process.env.WP_BASIC_AUTH_USER,
-        password: process.env.WP_BASIC_AUTH_PASSWORD,
-      },
-    }
-  : null
+// Require BOTH values: gatsby-source-wordpress treats a half-configured pair
+// as "no credentials" and reports a generic 401, which is hard to diagnose.
+const wpAuthUser = process.env.WP_BASIC_AUTH_USER
+const wpAuthPass = process.env.WP_BASIC_AUTH_PASSWORD
+
+const wpBasicAuth =
+  wpAuthUser && wpAuthPass
+    ? {
+        htaccess: {
+          username: wpAuthUser,
+          password: wpAuthPass,
+        },
+      }
+    : null
+
+// TEMPORARY build diagnostics — remove once auth is confirmed working.
+// Never logs the password itself, only whether it arrived and how long it is.
+console.log(
+  `[wp-basic-auth] NODE_ENV=${process.env.NODE_ENV} ` +
+    `user=${wpAuthUser ? `"${wpAuthUser}"` : `<UNSET>`} ` +
+    `pass=${wpAuthPass ? `<set, ${wpAuthPass.length} chars>` : `<UNSET>`} ` +
+    `-> auth header ${wpBasicAuth ? `WILL` : `will NOT`} be sent`
+)
+console.log(
+  `[wp-basic-auth] env keys matching /AUTH|BASIC|WPGRAPHQL/i: ` +
+    (Object.keys(process.env)
+      .filter(k => /AUTH|BASIC|WPGRAPHQL/i.test(k))
+      .sort()
+      .join(`, `) || `(none)`)
+)
 
 /**
  * @type {import('gatsby').GatsbyConfig}
