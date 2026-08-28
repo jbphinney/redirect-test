@@ -21,6 +21,14 @@ A Gatsby site configured for headless WordPress deployment on WP Engine.
    WPGRAPHQL_URL=https://your-wordpress-site.com/graphql
    ```
 
+   If the WordPress instance is protected by HTTP Basic auth, also set the
+   credentials. `gatsby-source-wordpress` sends them as an
+   `Authorization: Basic` header on GraphQL requests and media downloads:
+   ```
+   WP_BASIC_AUTH_USER=your-username
+   WP_BASIC_AUTH_PASSWORD=your-password
+   ```
+
 3. Install dependencies:
    ```bash
    npm install
@@ -37,7 +45,7 @@ A Gatsby site configured for headless WordPress deployment on WP Engine.
 
 2. Deploy using WP Engine’s Headless Platform by following their [deployment guide](https://developers.wpengine.com/docs/headless-platform/getting-started/deploy-from-existing-repo/)
 
-3. Configure the `WPGRAPHQL_URL` environment variable in WP Engine’s dashboard to point to your production WordPress GraphQL endpoint
+3. Configure the `WPGRAPHQL_URL` environment variable in WP Engine’s dashboard to point to your production WordPress GraphQL endpoint. If the endpoint is behind HTTP Basic auth, set `WP_BASIC_AUTH_USER` and `WP_BASIC_AUTH_PASSWORD` there as well — never commit them.
 
 ## Scripts
 

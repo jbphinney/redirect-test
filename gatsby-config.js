@@ -4,6 +4,29 @@
  * See: https://www.gatsbyjs.com/docs/reference/config-files/gatsby-config/
  */
 
+// Load environment variables from .env.development / .env.production
+require(`dotenv`).config({
+  path: `.env.${process.env.NODE_ENV || `development`}`,
+})
+
+// HTTP Basic auth for a password-protected WordPress backend.
+//
+// The `htaccess` key is just gatsby-source-wordpress's legacy name for Basic
+// auth — it does not require (or read) an .htaccess file. All it does is emit a
+// standard `Authorization: Basic <base64>` header, which is what WP Engine's
+// nginx-based password protection expects.
+//
+// Only set when a password is actually configured, otherwise the plugin would
+// send a literal "undefined:undefined".
+const wpBasicAuth = process.env.WP_BASIC_AUTH_PASSWORD
+  ? {
+      htaccess: {
+        username: process.env.WP_BASIC_AUTH_USER,
+        password: process.env.WP_BASIC_AUTH_PASSWORD,
+      },
+    }
+  : null
+
 /**
  * @type {import('gatsby').GatsbyConfig}
  */
@@ -20,6 +43,9 @@ module.exports = {
       options: {
         url: process.env.WPGRAPHQL_URL || `https://redirecttes521.wpenginepowered.com/graphql`,
         verbose: true,
+        // Sends an `Authorization: Basic <base64>` header on GraphQL requests
+        // and media downloads, for a password-protected WordPress instance.
+        ...(wpBasicAuth && { auth: wpBasicAuth }),
         develop: {
           hardCacheMediaFiles: true,
         },
